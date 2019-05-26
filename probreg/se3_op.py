@@ -3,6 +3,7 @@ from __future__ import division
 import numpy as np
 import transformations as trans
 from . import _se3_op
+from dq3d import dualquat, quat
 
 
 def skew(x):
@@ -45,6 +46,13 @@ def diff_from_tw(x, w=None):
 
 def diff_from_tw2(x):
     return _se3_op.diff_from_twist2(x.reshape((-1, 18)).T)
+
+
+def tw_dq(tw):
+    ang = np.linalg.norm(tw[:3])
+    if ang < np.finfo(np.float32).eps:
+        return dualquat(quat.identity(), tw[3:])
+    return dualquat(quat(ang, tw[:3] / ang), tw[3:])
 
 
 def diff_rot_from_quaternion(q):
