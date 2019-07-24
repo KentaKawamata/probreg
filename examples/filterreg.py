@@ -91,13 +91,13 @@ if __name__ == "__main__":
     source_t_plus_one.paint_uniform_color([0, 1, 0])
     result.paint_uniform_color([0, 0, 1])
 
-    origin_t_plus_one = "/mnt/container-data/ply_data/" + tf_cloud
-    P_t_plus_one = o3.read_point_cloud(origin_t_plus_one)
+    #origin_t_plus_one = "/mnt/container-data/ply_data/" + tf_cloud
+    #P_t_plus_one = o3.read_point_cloud(origin_t_plus_one)
     
-    P_t_plus_one.points = tf_param.transform(P_t_plus_one.points)
+    #P_t_plus_one.points = tf_param.transform(P_t_plus_one.points)
     
-    result_name = "/mnt/container-data/num_data/" + tf_cloud
-    o3.io.write_point_cloud(result_name, P_t_plus_one)
+    #result_name = "/mnt/container-data/num_data/" + tf_cloud
+    #o3.io.write_point_cloud(result_name, P_t_plus_one)
 
 
     #o3.draw_geometries([source_t, source_t_plus_one, P_t_plus_one])
