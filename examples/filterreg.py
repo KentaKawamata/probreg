@@ -32,6 +32,21 @@ if __name__ == "__main__":
 
     point_t_plus_one = "/mnt/container-data/remove_plane/" + tf_cloud
     source_t_plus_one = o3.read_point_cloud(point_t_plus_one)
+    
+    rot_in = trans.identity_matrix()
+    rote_path = '/mnt/container-data/rotation/' + first + ".txt"
+    
+    with open(rote_path, mode='r') as f:
+        
+        l_strip = [s.strip() for s in f.readlines()]
+
+        k=0
+        for i in range(4):
+            for j in range(4):
+                rot_in[j][i] = np.array(l_strip[k])
+                k=k+1
+
+    print(rot_in)
 
     #o3.draw_geometries([source_t])
     source_t = o3.voxel_down_sample(source_t, voxel_size=0.020)
