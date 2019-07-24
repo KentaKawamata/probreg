@@ -46,7 +46,8 @@ if __name__ == "__main__":
                 rot_in[j][i] = np.array(l_strip[k])
                 k=k+1
 
-    print(rot_in)
+    #print(rot_in)
+    source_t.transform(rot_in)
 
     #o3.draw_geometries([source_t])
     source_t = o3.voxel_down_sample(source_t, voxel_size=0.020)
