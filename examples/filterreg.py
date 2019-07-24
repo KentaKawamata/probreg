@@ -10,12 +10,20 @@ from probreg import callbacks
 import utils
 import os
 import glob
+import sys
 
+sig = None
+ter = 1
+ol = 0.0001
 
 if __name__ == "__main__":
 
-    origin_cloud = "26.ply"
-    tf = "27"
+    argvs = sys.argv
+
+    first = str(argvs[1])
+    tf = str(argvs[2])
+
+    origin_cloud = first + ".ply"
     tf_cloud = tf + ".ply"
 
     # load source and target point cloud
@@ -33,25 +41,21 @@ if __name__ == "__main__":
     cbs = [callbacks.Open3dVisualizerCallback(source_t_plus_one, source_t)]
     objective_type = 'pt2pt'
     
-
-    """
     tf_param, _, _ = filterreg.registration_filterreg(source_t_plus_one, source_t,
                                                       objective_type=objective_type,
-                                                      sigma2=0.02,
+                                                      sigma2=sig,
                                                       callbacks=cbs,
-                                                      maxiter=1,
-                                                      tol=0.01)
-    """
-
-    tf_param, _, _ = filterreg.registration_filterreg(source_t_plus_one, source_t,
-                                                      objective_type=objective_type,
-                                                      sigma2=55.7,
-                                                      callbacks=cbs,
-                                                      maxiter=5,
-                                                      tol=4.5)
+                                                      maxiter=ter,
+                                                      tol=ol)
 
     rot = trans.identity_matrix()
     rot[:3, :3] = tf_param.rot
+
+
+    print("result: ", np.rad2deg(trans.euler_from_matrix(rot)),
+          tf_param.scale, tf_param.t)
+    #print("result: ", rot, tf_param.scale, tf_param.t)
+
 
     path = '/mnt/container-data/rotation/' + tf + ".txt"
 
